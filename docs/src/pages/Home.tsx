@@ -19,6 +19,25 @@ function App() {
   );
 }`;
 
+const pastelColors = [
+  "#FFD54F", // primary yellow
+  "#E9D5FF", // secondary lavender
+  "#A7F3D0", // tertiary mint
+  "#FFDAB9", // peach
+  "#B0E0E6", // powder blue
+  "#DDA0DD", // plum
+  "#F0E68C", // khaki
+  "#98FB98", // pale green
+  "#FFB6C1", // light pink
+  "#ADD8E6", // light blue
+  "#FFE4B5", // moccasin
+  "#D3FFCE", // honeydew
+  "#E6E6FA", // lavender
+  "#F5DEB3", // wheat
+  "#B0C4DE", // light steel blue
+  "#C8A2C8", // lilac
+];
+
 const components = [
   { name: "Button", description: "Tactile buttons with hover lift and active press", path: "/components/button" },
   { name: "Card", description: "Flexible card container with compound components", path: "/components/card" },
@@ -72,11 +91,17 @@ export function Home() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Components</h2>
         <Grid columns={{ sm: 1, md: 2, lg: 3 }} gap="md">
-          {components.map((comp) => (
+          {components.map((comp, i) => (
             <Link key={comp.name} to={comp.path}>
               <Card interactive className="h-full">
                 <CardBody>
-                  <h3 className="font-bold text-lg mb-2">{comp.name}</h3>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div
+                      className="w-4 h-4 rounded-full border-2 border-[var(--nb-on-surface)]"
+                      style={{ backgroundColor: pastelColors[i % pastelColors.length] }}
+                    />
+                    <h3 className="font-bold text-lg">{comp.name}</h3>
+                  </div>
                   <p className="text-sm text-[var(--nb-on-surface-variant)]">{comp.description}</p>
                 </CardBody>
               </Card>

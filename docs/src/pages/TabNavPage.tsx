@@ -1,7 +1,7 @@
 import { Layout } from "../components/Layout";
 import { LiveDemo } from "../components/LiveDemo";
 import { PropsTable } from "../components/PropsTable";
-import { TabNav } from "neo-brutalist-ui";
+import { TabNav, Card, CardBody } from "neo-brutalist-ui";
 import { useState } from "react";
 
 const basicCode = `<TabNav
@@ -34,8 +34,22 @@ const withBadgesCode = `<TabNav
   onChange={setActiveTab}
 />`;
 
+const tabContent: Record<string, string> = {
+  overview: "This is the overview tab content. It shows a summary of the current state.",
+  code: "Here you can view and edit the source code. Use the editor below to make changes.",
+  settings: "Adjust your preferences here. Changes are saved automatically.",
+  home: "Welcome home! This is your dashboard with recent activity.",
+  search: "Search across all your documents and resources.",
+  settings2: "Manage your account settings and preferences.",
+  all: "Showing all 42 items across every category.",
+  active: "5 items are currently active and in progress.",
+  archived: "Archived items are stored here for reference.",
+};
+
 export function TabNavPage() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [activeTabIcons, setActiveTabIcons] = useState("home");
+  const [activeTabBadges, setActiveTabBadges] = useState("all");
 
   return (
     <Layout>
@@ -54,45 +68,72 @@ export function TabNavPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Basic Usage</h2>
         <LiveDemo code={basicCode}>
-          <TabNav
-            tabs={[
-              { key: "overview", label: "Overview" },
-              { key: "code", label: "Code" },
-              { key: "settings", label: "Settings" },
-            ]}
-            activeKey={activeTab}
-            onChange={setActiveTab}
-          />
+          <div className="w-full">
+            <TabNav
+              tabs={[
+                { key: "overview", label: "Overview" },
+                { key: "code", label: "Code" },
+                { key: "settings", label: "Settings" },
+              ]}
+              activeKey={activeTab}
+              onChange={setActiveTab}
+            />
+            <Card className="mt-4">
+              <CardBody className="px-4 py-3">
+                <p className="text-sm text-[var(--nb-on-surface-variant)]">
+                  {tabContent[activeTab]}
+                </p>
+              </CardBody>
+            </Card>
+          </div>
         </LiveDemo>
       </section>
 
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">With Icons</h2>
         <LiveDemo code={withIconsCode}>
-          <TabNav
-            tabs={[
-              { key: "home", label: "Home", icon: "home" },
-              { key: "search", label: "Search", icon: "search" },
-              { key: "settings", label: "Settings", icon: "settings" },
-            ]}
-            activeKey={activeTab}
-            onChange={setActiveTab}
-          />
+          <div className="w-full">
+            <TabNav
+              tabs={[
+                { key: "home", label: "Home", icon: "home" },
+                { key: "search", label: "Search", icon: "search" },
+                { key: "settings2", label: "Settings", icon: "settings" },
+              ]}
+              activeKey={activeTabIcons}
+              onChange={setActiveTabIcons}
+            />
+            <Card className="mt-4">
+              <CardBody className="px-4 py-3">
+                <p className="text-sm text-[var(--nb-on-surface-variant)]">
+                  {tabContent[activeTabIcons]}
+                </p>
+              </CardBody>
+            </Card>
+          </div>
         </LiveDemo>
       </section>
 
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">With Badges</h2>
         <LiveDemo code={withBadgesCode}>
-          <TabNav
-            tabs={[
-              { key: "all", label: "All", badge: 42 },
-              { key: "active", label: "Active", badge: 5 },
-              { key: "archived", label: "Archived" },
-            ]}
-            activeKey={activeTab}
-            onChange={setActiveTab}
-          />
+          <div className="w-full">
+            <TabNav
+              tabs={[
+                { key: "all", label: "All", badge: 42 },
+                { key: "active", label: "Active", badge: 5 },
+                { key: "archived", label: "Archived" },
+              ]}
+              activeKey={activeTabBadges}
+              onChange={setActiveTabBadges}
+            />
+            <Card className="mt-4">
+              <CardBody className="px-4 py-3">
+                <p className="text-sm text-[var(--nb-on-surface-variant)]">
+                  {tabContent[activeTabBadges]}
+                </p>
+              </CardBody>
+            </Card>
+          </div>
         </LiveDemo>
       </section>
 

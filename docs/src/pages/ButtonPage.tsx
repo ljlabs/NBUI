@@ -1,9 +1,7 @@
 import { Layout } from "../components/Layout";
 import { LiveDemo } from "../components/LiveDemo";
 import { PropsTable } from "../components/PropsTable";
-import { Button } from "neo-brutalist-ui";
-
-const basicCode = `<Button>Click me</Button>`;
+import { Button, Icon } from "neo-brutalist-ui";
 
 const variantsCode = `<Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
@@ -21,6 +19,10 @@ const statesCode = `<Button loading>Loading</Button>
 <Button disabled>Disabled</Button>
 <Button fullWidth>Full Width</Button>`;
 
+const shadowCode = `<Button variant="primary" size="lg">Hard Shadow</Button>
+<Button variant="secondary" size="lg">Hard Shadow</Button>
+<Button variant="danger" size="lg">Hard Shadow</Button>`;
+
 export function ButtonPage() {
   return (
     <Layout>
@@ -37,46 +39,69 @@ export function ButtonPage() {
       </section>
 
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-4">Basic Usage</h2>
-        <LiveDemo code={basicCode}>
-          <Button>Click me</Button>
+        <h2 className="text-2xl font-bold mb-4">Signature Hard Shadow</h2>
+        <p className="text-[var(--nb-on-surface-variant)] mb-4">
+          The defining feature of neo brutalism — hard offset shadows with no blur.
+          Default state shows the full shadow. Hover to see it pull in partially.
+          Click to see it press fully flat.
+        </p>
+        <LiveDemo code={shadowCode}>
+          <div className="flex flex-wrap gap-4">
+            <button className="px-8 py-4 text-base font-bold bg-[var(--nb-primary)] text-[var(--nb-on-primary)] border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius)] transition-all cursor-pointer hover:-translate-y-0.5 hover:shadow-[var(--nb-shadow-sm)] active:translate-y-1 active:shadow-none">
+              Primary
+            </button>
+            <button className="px-8 py-4 text-base font-bold bg-white text-[var(--nb-on-surface)] border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius)] transition-all cursor-pointer hover:-translate-y-0.5 hover:shadow-[var(--nb-shadow-sm)] active:translate-y-1 active:shadow-none">
+              Secondary
+            </button>
+            <button className="px-8 py-4 text-base font-bold bg-[var(--nb-error)] text-[var(--nb-on-error)] border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius)] transition-all cursor-pointer hover:-translate-y-0.5 hover:shadow-[var(--nb-shadow-sm)] active:translate-y-1 active:shadow-none">
+              Danger
+            </button>
+          </div>
         </LiveDemo>
       </section>
 
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Variants</h2>
         <LiveDemo code={variantsCode}>
-          <Button variant="primary">Primary</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="danger">Danger</Button>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="danger">Danger</Button>
+          </div>
         </LiveDemo>
       </section>
 
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Sizes</h2>
         <LiveDemo code={sizesCode}>
-          <Button size="sm">Small</Button>
-          <Button size="md">Medium</Button>
-          <Button size="lg">Large</Button>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button size="sm">Small</Button>
+            <Button size="md">Medium</Button>
+            <Button size="lg">Large</Button>
+          </div>
         </LiveDemo>
       </section>
 
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">With Icons</h2>
         <LiveDemo code={iconsCode}>
-          <Button startIcon={<span className="material-symbols-outlined">download</span>}>Download</Button>
-          <Button endIcon={<span className="material-symbols-outlined">arrow_forward</span>}>Next</Button>
+          <div className="flex flex-wrap gap-3">
+            <Button startIcon={<Icon name="download" />}>Download</Button>
+            <Button endIcon={<Icon name="arrow_forward" />}>Next</Button>
+          </div>
         </LiveDemo>
       </section>
 
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">States</h2>
         <LiveDemo code={statesCode}>
-          <Button loading>Loading</Button>
-          <Button disabled>Disabled</Button>
-          <div className="w-48">
-            <Button fullWidth>Full Width</Button>
+          <div className="flex flex-wrap items-center gap-3">
+            <Button loading>Loading</Button>
+            <Button disabled>Disabled</Button>
+            <div className="w-48">
+              <Button fullWidth>Full Width</Button>
+            </div>
           </div>
         </LiveDemo>
       </section>

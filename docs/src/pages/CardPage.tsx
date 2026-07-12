@@ -73,9 +73,11 @@ export function CardPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Variants</h2>
         <LiveDemo code={variantsCode}>
-          <Card variant="elevated"><CardBody>Elevated</CardBody></Card>
-          <Card variant="outlined"><CardBody>Outlined</CardBody></Card>
-          <Card variant="filled"><CardBody>Filled</CardBody></Card>
+          <div className="flex flex-col gap-4 w-full">
+            <Card variant="elevated"><CardBody>Elevated</CardBody></Card>
+            <Card variant="outlined"><CardBody>Outlined</CardBody></Card>
+            <Card variant="filled"><CardBody>Filled</CardBody></Card>
+          </div>
         </LiveDemo>
       </section>
 

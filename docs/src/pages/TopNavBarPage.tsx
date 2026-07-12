@@ -35,7 +35,7 @@ export function TopNavBarPage() {
   activeKey="home"
   onNavigate={setActiveKey}
 />`}>
-          <div style={{ height: "60px" }}>
+          <div className="w-full" style={{ position: "relative", zIndex: 60, overflow: "visible" }}>
             <TopNavBar
               logo={<Icon name="extension" filled size="lg" />}
               items={navItems}
@@ -52,7 +52,7 @@ export function TopNavBarPage() {
   items={navItems}
   actions={<Button variant="primary">Get Started</Button>}
 />`}>
-          <div style={{ height: "60px" }}>
+          <div className="w-full" style={{ position: "relative", zIndex: 60, overflow: "visible" }}>
             <TopNavBar
               items={navItems}
               activeKey={activeKey}

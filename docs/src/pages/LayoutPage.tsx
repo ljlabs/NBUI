@@ -27,7 +27,7 @@ export function LayoutPage() {
 >
   <main>Page content goes here</main>
 </Layout>`}>
-          <div className="border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] h-80 overflow-hidden">
+          <div className="border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] h-80 overflow-hidden" style={{ willChange: "transform" }}>
             <LayoutComp
               topBar={<TopNavBar logo={<Icon name="extension" filled size="lg" />} items={[{ key: "home", label: "Home" }]} />}
               bottomNav={<BottomNav items={[{ key: "home", label: "Home", icon: "home" }]} activeKey="home" onNavigate={() => {}} />}

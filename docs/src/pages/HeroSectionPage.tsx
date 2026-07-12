@@ -30,16 +30,18 @@ export function HeroSectionPage() {
     <Icon name="extension" size="xl" />
   </div>}
 />`}>
-          <HeroSection
-            headline="Give Your App Superpowers"
-            description="Build beautiful interfaces with tactile interactions"
-            label="NEW VERSION 2.0"
-            primaryAction={<Button variant="primary">Get Started</Button>}
-            secondaryAction={<Button variant="secondary">Learn More</Button>}
-            media={<div className="w-64 h-48 bg-[var(--nb-tertiary)] border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] flex items-center justify-center">
-              <Icon name="extension" size="xl" />
-            </div>}
-          />
+          <div className="w-full">
+            <HeroSection
+              headline="Give Your App Superpowers"
+              description="Build beautiful interfaces with tactile interactions"
+              label="NEW VERSION 2.0"
+              primaryAction={<Button variant="primary">Get Started</Button>}
+              secondaryAction={<Button variant="secondary">Learn More</Button>}
+              media={<div className="w-64 h-48 bg-[var(--nb-tertiary)] border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] flex items-center justify-center">
+                <Icon name="extension" size="xl" />
+              </div>}
+            />
+          </div>
         </LiveDemo>
       </section>
 
@@ -55,16 +57,18 @@ export function HeroSectionPage() {
     <Icon name="palette" size="xl" />
   </div>}
 />`}>
-          <HeroSection
-            align="center"
-            headline="Welcome to Neo Brutalist"
-            description="A design system for tactile interfaces"
-            label="BETA"
-            primaryAction={<Button variant="primary">Start Building</Button>}
-            media={<div className="w-64 h-48 bg-[var(--nb-secondary)] border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] flex items-center justify-center">
-              <Icon name="palette" size="xl" />
-            </div>}
-          />
+          <div className="w-full">
+            <HeroSection
+              align="center"
+              headline="Welcome to Neo Brutalist"
+              description="A design system for tactile interfaces"
+              label="BETA"
+              primaryAction={<Button variant="primary">Start Building</Button>}
+              media={<div className="w-64 h-48 bg-[var(--nb-secondary)] border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] flex items-center justify-center">
+                <Icon name="palette" size="xl" />
+              </div>}
+            />
+          </div>
         </LiveDemo>
       </section>
 

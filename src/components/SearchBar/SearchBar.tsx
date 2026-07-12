@@ -24,9 +24,9 @@ const sizeConfig = {
   },
   lg: {
     wrapper: "h-16",
-    input: "pl-14 pr-4 text-base",
+    input: "pl-16 pr-4 text-base",
     iconSize: "lg" as const,
-    iconClass: "left-4",
+    iconClass: "left-5",
     border: "border-4",
     rounding: "rounded-[var(--nb-radius-lg)]",
     shadow: "shadow-[var(--nb-shadow)]",
@@ -94,7 +94,7 @@ export function SearchBar({
           <Button
             variant="primary"
             size="md"
-            className="rounded-l-none h-full flex-shrink-0"
+            className="rounded-l-none rounded-[0_var(--nb-radius-lg)_var(--nb-radius-lg)_0] h-full flex-shrink-0 border-l-0 -ml-1"
             onClick={() => onSearch?.(query)}
           >
             {buttonLabel}

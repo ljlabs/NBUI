@@ -35,10 +35,11 @@ export function BottomNavPage() {
   activeKey="home"
   onNavigate={setActiveKey}
 />`}>
-          <div className="relative h-80 border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] overflow-hidden bg-white">
-            <div className="p-8 text-center text-[var(--nb-on-surface-variant)]">
-              <p>Mobile viewport simulation</p>
-              <p className="text-sm mt-2">BottomNav only renders on mobile</p>
+          <div className="relative w-full h-80 border-2 border-[var(--nb-on-surface)] rounded-[var(--nb-radius-lg)] overflow-hidden bg-white" style={{ willChange: "transform" }}>
+            <div className="p-8 pb-20 text-center text-[var(--nb-on-surface-variant)]">
+              <p className="font-bold text-lg">Mobile viewport simulation</p>
+              <p className="text-sm mt-2">BottomNav renders at the bottom of the screen</p>
+              <p className="text-sm mt-1">Active: <strong>{activeKey}</strong></p>
             </div>
             <BottomNav
               items={navItems}

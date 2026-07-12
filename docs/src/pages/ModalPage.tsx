@@ -28,7 +28,8 @@ const sizesCode = `<Modal size="sm" open onClose={close} title="Small">Content</
 
 export function ModalPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [openSize, setOpenSize] = useState<"sm" | "md" | "lg">("md");
+  const [isOpenWithActions, setIsOpenWithActions] = useState(false);
+  const [openSize, setOpenSize] = useState<"sm" | "md" | "lg" | null>(null);
 
   return (
     <Layout>
@@ -60,19 +61,19 @@ export function ModalPage() {
         <h2 className="text-2xl font-bold mb-4">With Actions</h2>
         <LiveDemo code={withActionsCode}>
           <div>
-            <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+            <Button onClick={() => setIsOpenWithActions(true)}>Open Modal</Button>
             <Modal
-              open={isOpen}
-              onClose={() => setIsOpen(false)}
+              open={isOpenWithActions}
+              onClose={() => setIsOpenWithActions(false)}
               title="Confirm Delete"
               actions={
                 <>
-                  <Button variant="secondary" onClick={() => setIsOpen(false)}>Cancel</Button>
-                  <Button variant="danger" onClick={() => setIsOpen(false)}>Delete</Button>
+                  <Button variant="secondary" onClick={() => setIsOpenWithActions(false)}>Cancel</Button>
+                  <Button variant="danger" onClick={() => setIsOpenWithActions(false)}>Delete</Button>
                 </>
               }
             >
-              <p>Are you sure you want to delete this item?</p>
+              <p className="text-[var(--nb-on-surface-variant)]">Are you sure you want to delete this item? This action cannot be undone.</p>
             </Modal>
           </div>
         </LiveDemo>
@@ -81,19 +82,29 @@ export function ModalPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Sizes</h2>
         <LiveDemo code={sizesCode}>
-          <div className="space-y-2">
-            <Button onClick={() => { setOpenSize("sm"); setIsOpen(true); }}>Open Small</Button>
-            <Button onClick={() => { setOpenSize("md"); setIsOpen(true); }}>Open Medium</Button>
-            <Button onClick={() => { setOpenSize("lg"); setIsOpen(true); }}>Open Large</Button>
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" onClick={() => setOpenSize("sm")}>Open Small</Button>
+            <Button size="md" onClick={() => setOpenSize("md")}>Open Medium</Button>
+            <Button size="lg" onClick={() => setOpenSize("lg")}>Open Large</Button>
           </div>
-          <Modal
-            size={openSize}
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-            title={`${openSize.charAt(0).toUpperCase() + openSize.slice(1)} Modal`}
-          >
-            <p>This is a {openSize} modal.</p>
-          </Modal>
+          {openSize && (
+            <Modal
+              size={openSize}
+              open={true}
+              onClose={() => setOpenSize(null)}
+              title={`${openSize.charAt(0).toUpperCase() + openSize.slice(1)} Modal`}
+              actions={
+                <>
+                  <Button variant="secondary" size="sm" onClick={() => setOpenSize(null)}>Cancel</Button>
+                  <Button variant="primary" size="sm" onClick={() => setOpenSize(null)}>OK</Button>
+                </>
+              }
+            >
+              <p className="text-[var(--nb-on-surface-variant)]">
+                This is a <strong>{openSize}</strong> modal. It uses <code>size="{openSize}"</code> to control the width.
+              </p>
+            </Modal>
+          )}
         </LiveDemo>
       </section>
 

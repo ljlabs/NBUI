@@ -1,7 +1,7 @@
 import { Layout } from "../components/Layout";
 import { LiveDemo } from "../components/LiveDemo";
 import { PropsTable } from "../components/PropsTable";
-import { Toast, Button, Grid } from "neo-brutalist-ui";
+import { Toast, Button } from "neo-brutalist-ui";
 import { useState } from "react";
 
 export function ToastPage() {
@@ -38,11 +38,20 @@ export function ToastPage() {
         <LiveDemo code={`<Toast open variant="success">Saved!</Toast>
 <Toast open variant="error">Error occurred</Toast>
 <Toast open variant="info">Information</Toast>`}>
-          <Grid columns={{ sm: 1, md: 3 }} gap="md">
-            <Toast open variant="success" onClose={() => {}}>Saved!</Toast>
-            <Toast open variant="error" onClose={() => {}}>Error occurred</Toast>
-            <Toast open variant="info" onClose={() => {}}>Information</Toast>
-          </Grid>
+          <div className="flex flex-col gap-3">
+            <div className="bg-[var(--nb-tertiary-container)] text-[var(--nb-on-tertiary-container)] border-2 border-[var(--nb-tertiary)] rounded-[var(--nb-radius)] px-4 py-3 flex items-center gap-3 font-semibold text-sm max-w-sm">
+              <span className="material-symbols-outlined text-lg">check_circle</span>
+              <span className="flex-1">Saved!</span>
+            </div>
+            <div className="bg-[var(--nb-error-container)] text-[var(--nb-on-error-container)] border-2 border-[var(--nb-error)] rounded-[var(--nb-radius)] px-4 py-3 flex items-center gap-3 font-semibold text-sm max-w-sm">
+              <span className="material-symbols-outlined text-lg">error</span>
+              <span className="flex-1">Error occurred</span>
+            </div>
+            <div className="bg-[var(--nb-secondary-container)] text-[var(--nb-on-secondary-container)] border-2 border-[var(--nb-secondary)] rounded-[var(--nb-radius)] px-4 py-3 flex items-center gap-3 font-semibold text-sm max-w-sm">
+              <span className="material-symbols-outlined text-lg">info</span>
+              <span className="flex-1">Information</span>
+            </div>
+          </div>
         </LiveDemo>
       </section>
 
@@ -76,20 +85,18 @@ return (
     ))}
   </>
 )`}>
-          <div className="flex gap-3 mb-6">
+          <div className="flex flex-wrap gap-3 mb-6">
             <Button variant="primary" onClick={() => showToast("success")}>Show Success</Button>
             <Button variant="danger" onClick={() => showToast("error")}>Show Error</Button>
             <Button variant="secondary" onClick={() => showToast("info")}>Show Info</Button>
           </div>
-          <Grid columns={{ sm: 1, md: 3 }} gap="md" style={{ position: "fixed", bottom: "1rem", right: "1rem", zIndex: 50 }}>
-            {Object.entries(toasts).map(([id, { variant }]) => (
-              <Toast key={id} open variant={variant} onClose={() => setToasts(prev => { const next = { ...prev }; delete next[id]; return next; })}>
-                {variant === "success" && "Operation successful!"}
-                {variant === "error" && "Something went wrong"}
-                {variant === "info" && "Here's some information"}
-              </Toast>
-            ))}
-          </Grid>
+          {Object.entries(toasts).map(([id, { variant }]) => (
+            <Toast key={id} open variant={variant} onClose={() => setToasts(prev => { const next = { ...prev }; delete next[id]; return next; })}>
+              {variant === "success" && "Operation successful!"}
+              {variant === "error" && "Something went wrong"}
+              {variant === "info" && "Here's some information"}
+            </Toast>
+          ))}
         </LiveDemo>
       </section>
 
