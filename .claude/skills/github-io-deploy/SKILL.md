@@ -5,7 +5,7 @@ description: Deploy a Vite React website to GitHub Pages. Use this when the user
 
 # GitHub.io Deploy
 
-Deploy a Vite + React website to GitHub Pages using GitHub Actions. This skill handles the full deployment pipeline: creating the workflow, configuring the gh-pages branch, setting up repo settings, and troubleshooting common issues.
+Deploy a Vite + React website to GitHub Pages using GitHub Actions source mode. This skill handles everything: creating the workflow, configuring repo settings via `gh`, and troubleshooting.
 
 ## When to use
 
@@ -16,12 +16,7 @@ Deploy a Vite + React website to GitHub Pages using GitHub Actions. This skill h
 
 ## How it works
 
-The deployment uses `peaceiris/actions-gh-pages@v4` which:
-1. Builds the Vite project
-2. Pushes the built `dist/` output to a `gh-pages` branch
-3. GitHub Pages serves from that branch
-
-This is different from the "GitHub Actions" Pages source mode — we use "Deploy from a branch" with the `gh-pages` branch.
+Uses **GitHub Actions source mode** — the workflow builds the site, uploads it as an artifact, and GitHub Pages serves directly from it. No `gh-pages` branch needed.
 
 ## Deployment steps
 
@@ -31,7 +26,7 @@ Set the `base` to match your repo name:
 
 ```ts
 export default defineConfig({
-  base: "/<repo-name>/",  // e.g., "/powerup/" for ljlabs/powerup
+  base: "/<repo-name>/",  // e.g., "/NBUI/" for ljlabs/NBUI
   // ...
 });
 ```
@@ -49,10 +44,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -73,127 +74,11 @@ jobs:
         working-directory: website
         run: npm run build
 
-      - name: Deploy to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/dist
-          force_orphan: true
-```
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
-Adjust `working-directory` and `publish_dir` to match your project structure. For a monorepo with website in `website/`, use `./website/dist`. For a single-repo project, use `./dist`.
-
-### Step 3: Create the gh-pages branch
-
-The `gh-pages` branch must exist before GitHub Pages can be enabled:
-
-```bash
-git checkout --orphan gh-pages
-echo "deploying" > index.html
-git add index.html
-git commit -m "init gh-pages"
-git push origin gh-pages
-git checkout main
-```
-
-### Step 4: Enable GitHub Pages
-
-1. Go to your repo on GitHub
-2. **Settings → Pages**
-3. Source: **Deploy from a branch**
-4. Branch: **gh-pages**, Folder: **/ (root)**
-5. Click Save
-
-### Step 5: Push to trigger deployment
-
-```bash
-git add .
-git commit -m "deploy to GitHub Pages"
-git push origin main
-```
-
-Wait ~2 minutes for the first deployment. Your site will be live at:
-`https://<owner>.github.io/<repo>/`
-
-## Troubleshooting
-
-### 404 on the deployed site
-
-**Cause:** `base` in `vite.config.ts` doesn't match the repo name.
-
-**Fix:** Update `base` to `"/<repo-name>/"` and redeploy.
-
-### "Pages is already enabled" error when trying to enable
-
-**Cause:** Pages was previously enabled with a different source.
-
-**Fix:** Go to Settings → Pages, change the source to "Deploy from a branch" with `gh-pages`.
-
-### Build fails in CI but works locally
-
-**Cause:** Usually Windows-specific paths in npm scripts.
-
-**Fix:** Remove explicit `--skills-dir` arguments from package.json scripts. Let the build script use its own default path resolution. Example:
-```json
-"build": "node scripts/generate-manifest.js && tsc -b && vite build"
-// NOT:
-"build": "node scripts/generate-manifest.js --skills-dir ..\\skills && tsc -b && vite build"
-```
-
-### GitHub Actions fails with "Get Pages site failed"
-
-**Cause:** Pages isn't enabled yet in the repo settings.
-
-**Fix:** Enable Pages (Step 4 above) before pushing. Or use the "GitHub Actions" source mode with `actions/upload-pages-artifact` + `actions/deploy-pages` instead.
-
-### Wrong content being served
-
-**Cause:** The `gh-pages` branch has stale content, or you're serving from the wrong branch.
-
-**Fix:** The workflow uses `force_orphan: true` which replaces the branch content entirely. If you're still seeing old content, check that the workflow ran successfully and that Pages source is set to `gh-pages`.
-
-### Windows backslash errors in CI
-
-**Cause:** npm scripts with `..\\skills` work on Windows but fail on Linux CI.
-
-**Fix:** Use forward slashes or remove explicit path arguments. The build script's default resolution works cross-platform.
-
-## Alternative: GitHub Actions source mode
-
-If you prefer not to use a `gh-pages` branch, you can use the GitHub Actions source mode instead. This requires a different workflow:
-
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [main]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: website/package-lock.json
-      - run: npm ci
-        working-directory: website
-      - run: npm run build
-        working-directory: website
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: website/dist
 
@@ -204,8 +89,131 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
-Then set Pages source to **GitHub Actions** in repo settings. This mode doesn't need a `gh-pages` branch.
+Adjust `working-directory` and `path` to match your project structure:
+- Monorepo with website in `website/`: use `working-directory: website` and `path: website/dist`
+- Single-repo project: remove `working-directory` and use `path: dist`
+
+### Step 3: Enable GitHub Pages via `gh`
+
+Run these commands to configure the repo. Replace `OWNER/REPO` with your actual repo:
+
+```bash
+# Enable Pages with GitHub Actions source mode
+gh api -X PUT repos/OWNER/REPO/pages \
+  -f build_type=workflow \
+  -f source='{"branch":"main","path":"/"}'
+
+# Or if Pages isn't enabled yet:
+gh api -X POST repos/OWNER/REPO/pages \
+  -f build_type=workflow \
+  -f source='{"branch":"main","path":"/"}'
+```
+
+**Important:** Pages must be set to `build_type: "workflow"` (not `"legacy"`). If it was previously set to "Deploy from a branch", you need to switch it. The `gh api` call above handles this.
+
+### Step 4: Commit and push
+
+```bash
+git add .
+git commit -m "deploy to GitHub Pages"
+git push origin main
+```
+
+The push triggers the workflow automatically. Check status with:
+
+```bash
+gh run list --limit 3
+```
+
+Your site will be live at:
+`https://<owner>.github.io/<repo>/`
+
+## Full automated setup script
+
+For new projects, this one-liner does everything after you've created the files:
+
+```bash
+# Get repo info
+REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+
+# Enable Pages with workflow source mode
+gh api -X PUT repos/$REPO/pages -f build_type=workflow -f source='{"branch":"main","path":"/"}'
+
+# Commit and push
+git add .github/workflows/deploy.yml website/
+git commit -m "deploy to GitHub Pages"
+git push origin main
+
+# Watch the deployment
+gh run watch
+```
+
+## Troubleshooting
+
+### 404 on the deployed site
+
+**Cause:** `base` in `vite.config.ts` doesn't match the repo name.
+
+**Fix:** Update `base` to `"/<repo-name>/"` and redeploy.
+
+### "Get Pages site failed" in GitHub Actions
+
+**Cause:** Pages isn't enabled in repo settings, or is set to "Deploy from a branch" instead of "GitHub Actions".
+
+**Fix:**
+```bash
+gh api -X PUT repos/OWNER/REPO/pages -f build_type=workflow -f source='{"branch":"main","path":"/"}'
+```
+
+### Build fails in CI but works locally
+
+**Cause:** Usually Windows-specific paths in npm scripts.
+
+**Fix:** Remove explicit `--skills-dir` arguments or backslash paths from package.json scripts. Let the build script use its own default path resolution. Example:
+```json
+"build": "node scripts/generate-manifest.js && tsc -b && vite build"
+// NOT:
+"build": "node scripts/generate-manifest.js --skills-dir ..\\skills && tsc -b && vite build"
+```
+
+### Windows backslash errors in CI
+
+**Cause:** npm scripts with `..\\skills` work on Windows but fail on Linux CI.
+
+**Fix:** Use forward slashes or remove explicit path arguments. The build script's default resolution works cross-platform.
+
+### Wrong content being served
+
+**Cause:** Stale build artifact, or Pages pointing to the wrong branch.
+
+**Fix:** Push an empty commit to re-trigger the workflow, or run `gh workflow run deploy.yml`. Check `gh api repos/OWNER/REPO/pages` to verify `build_type` is `"workflow"`.
+
+### Pages was previously set to "Deploy from a branch"
+
+**Cause:** Legacy Pages config conflicts with Actions source mode.
+
+**Fix:**
+```bash
+# Switch to workflow mode
+gh api -X PUT repos/OWNER/REPO/pages -f build_type=workflow -f source='{"branch":"main","path":"/"}'
+```
+
+## Checking current Pages config
+
+```bash
+gh api repos/OWNER/REPO/pages --jq '{build_type: .build_type, source: .source, url: .html_url}'
+```
+
+Expected output for GitHub Actions mode:
+```json
+{
+  "build_type": "workflow",
+  "source": {"branch": "main", "path": "/"},
+  "url": "https://OWNER.github.io/REPO/"
+}
+```
