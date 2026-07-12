@@ -1,0 +1,160 @@
+/* ─── Neo Brutalist Design System ─── */
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Fredoka:wght@500;700;800&family=Work+Sans:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+
+:root {
+  /* ─── Colors (Material Design 3 naming) ─── */
+  --nb-surface: #fcf8f7;
+  --nb-surface-dim: #ddd9d8;
+  --nb-surface-bright: #fcf8f7;
+  --nb-surface-container-lowest: #ffffff;
+  --nb-surface-container-low: #f7f3f2;
+  --nb-surface-container: #f1edec;
+  --nb-surface-container-high: #ebe7e6;
+  --nb-surface-container-highest: #e5e2e1;
+  --nb-on-surface: #1c1b1b;
+  --nb-on-surface-variant: #444844;
+  --nb-inverse-surface: #313030;
+  --nb-inverse-on-surface: #f4f0ef;
+  --nb-background: #fcf8f7;
+  --nb-on-background: #1c1b1b;
+
+  /* Primary — Brand Yellow */
+  --nb-primary: #FFD54F;
+  --nb-on-primary: #1c1b1b;
+  --nb-primary-container: #fff8d6;
+  --nb-on-primary-container: #464745;
+
+  /* Secondary — Lavender */
+  --nb-secondary: #E9D5FF;
+  --nb-on-secondary: #1c1b1b;
+  --nb-secondary-container: #f3eaff;
+  --nb-on-secondary-container: #464745;
+
+  /* Tertiary — Mint */
+  --nb-tertiary: #A7F3D0;
+  --nb-on-tertiary: #1c1b1b;
+  --nb-tertiary-container: #d1fce6;
+  --nb-on-tertiary-container: #464745;
+
+  /* Error */
+  --nb-error: #ba1a1a;
+  --nb-on-error: #ffffff;
+  --nb-error-container: #ffdad6;
+  --nb-on-error-container: #93000a;
+
+  /* Outline */
+  --nb-outline: #757874;
+  --nb-outline-variant: #c5c7c3;
+
+  /* ─── Shadows (hard offset, no blur) ─── */
+  --nb-shadow-color: rgba(26, 26, 26, 1);
+  --nb-shadow-sm: 2px 2px 0px 0px var(--nb-shadow-color);
+  --nb-shadow: 4px 4px 0px 0px var(--nb-shadow-color);
+  --nb-shadow-lg: 6px 6px 0px 0px var(--nb-shadow-color);
+  --nb-shadow-inset: inset 2px 2px 0px 0px var(--nb-shadow-color);
+
+  /* ─── Border ─── */
+  --nb-border-width: 2px;
+  --nb-border-color: var(--nb-on-surface);
+  --nb-border: var(--nb-border-width) solid var(--nb-border-color);
+
+  /* ─── Border Radius ─── */
+  --nb-radius-sm: 0.5rem;
+  --nb-radius: 0.75rem;
+  --nb-radius-lg: 1.25rem;
+  --nb-radius-full: 9999px;
+
+  /* ─── Typography ─── */
+  --nb-font-display: "Fredoka", "Quicksand", sans-serif;
+  --nb-font-body: "Quicksand", sans-serif;
+  --nb-font-label: "Work Sans", "Quicksand", sans-serif;
+
+  /* ─── Transition ─── */
+  --nb-transition: 0.1s ease;
+}
+
+/* ─── Shadow Utilities ─── */
+.nb-shadow-sm {
+  box-shadow: var(--nb-shadow-sm);
+}
+.nb-shadow {
+  box-shadow: var(--nb-shadow);
+}
+.nb-shadow-lg {
+  box-shadow: var(--nb-shadow-lg);
+}
+.nb-shadow-inset {
+  box-shadow: var(--nb-shadow-inset);
+}
+
+/* ─── Tactile Button ─── */
+.nb-tactile {
+  transition: transform var(--nb-transition), box-shadow var(--nb-transition);
+  border: var(--nb-border);
+}
+.nb-tactile:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--nb-shadow-lg);
+}
+.nb-tactile:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px 0px var(--nb-shadow-color) !important;
+}
+
+/* ─── Text Shadow ─── */
+.nb-text-shadow-hard {
+  text-shadow: 2px 2px 0px var(--nb-shadow-color);
+}
+
+/* ─── Animations ─── */
+@keyframes nb-flash-error {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(0.9) sepia(1) hue-rotate(-50deg) saturate(3); background-color: #ffb3b3 !important; }
+}
+.nb-error-flash {
+  animation: nb-flash-error 0.6s ease-in-out;
+}
+
+@keyframes nb-flash-success {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.15); background-color: #c8ffc8 !important; }
+}
+.nb-success-flash {
+  animation: nb-flash-success 0.4s ease-in-out;
+}
+
+@keyframes nb-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.nb-pop {
+  animation: nb-pop 0.3s ease-in-out;
+}
+
+@keyframes nb-score-bump {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.nb-score-bump {
+  animation: nb-score-bump 0.3s ease-in-out;
+}
+
+@keyframes nb-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.nb-slide-up {
+  animation: nb-slide-up 0.2s ease-out;
+}
+
+@keyframes nb-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.nb-fade-in {
+  animation: nb-fade-in 0.15s ease-out;
+}

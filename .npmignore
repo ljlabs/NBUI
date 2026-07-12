@@ -1,0 +1,16 @@
+docs/
+.claude/
+tests/
+src/
+*.test.tsx
+*.test.ts
+*.stories.tsx
+*.stories.ts
+tsconfig.json
+tsconfig.build.json
+vite.config.ts
+vite.config.css.ts
+vitest.config.ts
+.gitignore
+.vscode/
+.idea/
