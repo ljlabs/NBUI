@@ -11,7 +11,7 @@ const sizeConfig = {
     iconClass: "left-2.5",
     border: "border-2",
     rounding: "rounded-[var(--nb-radius)]",
-    shadow: "shadow-[var(--nb-shadow-sm)]",
+    shadow: "shadow-[var(--nb-shadow-sm)] focus:shadow-[var(--nb-shadow)]",
   },
   md: {
     wrapper: "h-12",
@@ -20,7 +20,7 @@ const sizeConfig = {
     iconClass: "left-3",
     border: "border-2",
     rounding: "rounded-[var(--nb-radius)]",
-    shadow: "shadow-[var(--nb-shadow-sm)]",
+    shadow: "shadow-[var(--nb-shadow)] focus:shadow-[var(--nb-shadow-lg)]",
   },
   lg: {
     wrapper: "h-16",
@@ -29,7 +29,7 @@ const sizeConfig = {
     iconClass: "left-5",
     border: "border-4",
     rounding: "rounded-[var(--nb-radius-lg)]",
-    shadow: "shadow-[var(--nb-shadow)]",
+    shadow: "shadow-[var(--nb-shadow-lg)] focus:shadow-[6px_6px_0px_0px_var(--nb-shadow-color)]",
   },
 };
 

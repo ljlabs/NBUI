@@ -3,7 +3,7 @@ import { Button, HeroSection, Card, CardBody, Grid } from "neo-brutalist-ui";
 import { Layout } from "../components/Layout";
 import { CodeBlock } from "../components/CodeBlock";
 
-const installCode = `npm install https://github.com/user/Neo_Brutalist`;
+const installCode = `npm install https://github.com/ljlabs/NBUI`;
 
 const quickStartCode = `import { NeoThemeProvider, Button, Card } from 'neo-brutalist-ui';
 import 'neo-brutalist-ui/styles.css';
@@ -72,7 +72,7 @@ export function Home() {
           </Link>
         }
         secondaryAction={
-          <Button variant="secondary" size="lg" onClick={() => window.open("https://github.com/user/Neo_Brutalist")}>
+          <Button variant="secondary" size="lg" onClick={() => window.open("https://github.com/ljlabs/NBUI")}>
             View on GitHub
           </Button>
         }

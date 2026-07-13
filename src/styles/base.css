@@ -72,7 +72,7 @@
   --nb-font-label: "Work Sans", "Quicksand", sans-serif;
 
   /* ─── Transition ─── */
-  --nb-transition: 0.1s ease;
+  --nb-transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ─── Shadow Utilities ─── */
@@ -93,14 +93,15 @@
 .nb-tactile {
   transition: transform var(--nb-transition), box-shadow var(--nb-transition);
   border: var(--nb-border);
+  box-shadow: var(--nb-shadow);
 }
 .nb-tactile:hover {
-  transform: translate(-2px, -2px);
+  transform: translateY(-2px);
   box-shadow: var(--nb-shadow-lg);
 }
 .nb-tactile:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0px 0px var(--nb-shadow-color) !important;
+  transform: translateY(2px);
+  box-shadow: none !important;
 }
 
 /* ─── Text Shadow ─── */

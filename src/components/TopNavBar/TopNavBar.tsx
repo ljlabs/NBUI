@@ -18,7 +18,7 @@ export function TopNavBar({
       className="sticky top-0 z-50 w-full border-b-2 border-[var(--nb-on-surface)]"
       style={{
         backgroundColor: "var(--nb-surface)",
-        boxShadow: "var(--nb-shadow)",
+        boxShadow: "4px 4px 0px 0px rgba(26,26,26,1)",
       }}
     >
       <div className="flex items-center justify-between px-4 md:px-8 lg:px-12 py-3 max-w-[1200px] mx-auto">

@@ -55,7 +55,7 @@ export function Modal({
           sizeClasses[size],
           "border-2 border-[var(--nb-on-surface)]",
           "rounded-[var(--nb-radius-lg)]",
-          "shadow-[var(--nb-shadow-lg)]",
+          "shadow-[6px_6px_0px_0px_var(--nb-shadow-color)]",
           "nb-slide-up",
         )}
         onClick={(e) => e.stopPropagation()}

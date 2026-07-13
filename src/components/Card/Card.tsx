@@ -34,7 +34,7 @@ export function Card({
         "transition-all",
         variantBg[variant],
         variant === "elevated" && shadowMap[shadow] && `shadow-[${shadowMap[shadow]}]`,
-        interactive && "cursor-pointer hover:-translate-y-1 hover:shadow-[var(--nb-shadow-lg)]",
+        interactive && "cursor-pointer hover:-translate-y-0.5 hover:shadow-[var(--nb-shadow-lg)] active:translate-y-0.5 active:shadow-none",
         className,
       )}
       style={{

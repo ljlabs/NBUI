@@ -51,7 +51,7 @@ export function Toast({
         "fixed bottom-4 right-4 z-50 max-w-sm",
         "border-2 border-[var(--nb-on-surface)]",
         "rounded-[var(--nb-radius)]",
-        "shadow-[var(--nb-shadow)]",
+        "shadow-[4px_4px_0px_0px_var(--nb-shadow-color)]",
         "px-4 py-3 flex items-center gap-3",
         "font-semibold text-sm",
         config.bg,

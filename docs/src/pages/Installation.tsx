@@ -1,9 +1,9 @@
 import { Layout } from "../components/Layout";
 import { CodeBlock } from "../components/CodeBlock";
 
-const npmCode = `npm install https://github.com/user/Neo_Brutalist`;
-const yarnCode = `yarn add https://github.com/user/Neo_Brutalist`;
-const pnpmCode = `pnpm add https://github.com/user/Neo_Brutalist`;
+const npmCode = `npm install https://github.com/ljlabs/NBUI`;
+const yarnCode = `yarn add https://github.com/ljlabs/NBUI`;
+const pnpmCode = `pnpm add https://github.com/ljlabs/NBUI`;
 
 const importCode = `// In your app entry point (e.g., main.tsx or App.tsx)
 import 'neo-brutalist-ui/styles.css';`;
