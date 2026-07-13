@@ -5,9 +5,91 @@
     <link rel="icon" type="image/svg+xml" href="/NBUI/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NBUI — Neo Brutalist UI</title>
+    <!-- Google Consent Mode v2 — blocks analytics until user consents -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // Default: deny all — GA stays dormant until consent
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_ 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
+
+      // Overwrite defaults for users outside GDPR/UK regions
+      (function() {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        var lang = navigator.language || '';
+        var inEU_UK = /^(Europe\/|Atlantic\/(Azores|Canary|Faroe|Madeira)|UTC$)/.test(tz)
+                   || /^(en-GB|en-IE|fr|de|es|it|nl|pt|pl|sv|da|fi|nb|cs|sk|sl|hr|bg|ro|hu|el|lt|lv|et|mt|cy|ga|lb|is|no|sq|mk|bs|sr|me|tr|ru|uk|be|ka|hy|az|kk|ky|tg|uz|tm|mn)/.test(lang);
+        if (!inEU_UK) {
+          gtag('consent', 'default', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted'
+          });
+        }
+      })();
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVVZWGZ7GX"></script>
+    <script>
+      gtag('js', new Date());
+      gtag('config', 'G-CVVZWGZ7GX');
+    </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Cookie consent banner (must be after body exists) -->
+    <script>
+      (function() {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        var lang = navigator.language || '';
+        var inEU_UK = /^(Europe\/|Atlantic\/(Azores|Canary|Faroe|Madeira)|UTC$)/.test(tz)
+                   || /^(en-GB|en-IE|fr|de|es|it|nl|pt|pl|sv|da|fi|nb|cs|sk|sl|hr|bg|ro|hu|el|lt|lv|et|mt|cy|ga|lb|is|no|sq|mk|bs|sr|me|tr|ru|uk|be|ka|hy|az|kk|ky|tg|uz|tm|mn)/.test(lang);
+        if (!inEU_UK) return;
+
+        if (localStorage.getItem('nb_cookie_consent')) return;
+
+        var banner = document.createElement('div');
+        banner.id = 'nb-cookie-banner';
+        banner.innerHTML = '<div style="position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;z-index:9999;font-family:system-ui,sans-serif;font-size:14px;flex-wrap:wrap;border-top:3px solid #facc15;">'
+          + '<span style="flex:1;min-width:200px;">🍪 We use cookies for analytics. By clicking Accept, you consent to Google Analytics tracking. <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener" style="color:#facc15;text-decoration:underline;">Learn more</a></span>'
+          + '<div style="display:flex;gap:8px;flex-shrink:0;">'
+          + '<button id="nb-cookie-reject" style="padding:8px 16px;border:2px solid #666;background:transparent;color:#fff;cursor:pointer;font-weight:600;">Reject</button>'
+          + '<button id="nb-cookie-accept" style="padding:8px 16px;border:2px solid #facc15;background:#facc15;color:#1a1a1a;cursor:pointer;font-weight:700;">Accept</button>'
+          + '</div></div>';
+        document.body.appendChild(banner);
+
+        function consent(storage) {
+          gtag('consent', 'update', {
+            ad_storage: storage,
+            ad_user_ storage,
+            ad_personalization: storage,
+            analytics_storage: storage,
+            functionality_storage: storage,
+            personalization_storage: storage
+          });
+          localStorage.setItem('nb_cookie_consent', storage);
+          banner.remove();
+        }
+
+        document.getElementById('nb-cookie-accept').onclick = function() { consent('granted'); };
+        document.getElementById('nb-cookie-reject').onclick = function() { consent('denied'); };
+      })();
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
